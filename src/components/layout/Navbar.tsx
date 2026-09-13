@@ -28,6 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [involvedDropdown, setInvolvedDropdown] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
 
   const { totalItems } = useCart();
   const { totalWishlistItems } = useWishlist();
@@ -126,28 +127,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             : 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-200/80 py-3 lg:py-3.5'
         }`}
       >
-        <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between gap-6">
+        <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
           {/* Logo & Brand Identity */}
-          <Link to="/" className="flex items-center space-x-3 group flex-shrink-0">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 ${
+          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0">
+            <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 ${
               isTransparent
                 ? 'bg-gradient-to-br from-emerald-600 via-emerald-700 to-amber-500 shadow-emerald-950/40 text-white'
                 : 'bg-gradient-to-br from-[#0F3E2E] via-[#155e42] to-[#0A192F] shadow-emerald-950/20'
             }`}>
-              <Heart className="w-6 h-6 text-amber-400 fill-amber-400" />
+              <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 fill-amber-400" />
             </div>
             <div>
               <div className="flex items-center">
-                <span className={`font-heading font-extrabold text-xl tracking-tight transition-colors ${
+                <span className={`font-heading font-extrabold text-base sm:text-xl tracking-tight transition-colors ${
                   isTransparent ? 'text-white' : 'text-[#0F3E2E]'
                 }`}>
                   ISMITA
                 </span>
-                <span className="font-heading font-light text-xl tracking-wider text-amber-400 ml-1.5">
-                  CHARITABLE FOUNDATION
+                <span className="font-heading font-light text-xs sm:text-base xl:text-xl tracking-wider text-amber-400 ml-1 sm:ml-1.5">
+                  <span className="hidden sm:inline">CHARITABLE </span>FOUNDATION
                 </span>
               </div>
-              <p className={`text-[10px] uppercase tracking-widest font-semibold -mt-1 transition-colors ${
+              <p className={`hidden md:block text-[10px] uppercase tracking-widest font-semibold -mt-1 transition-colors ${
                 isTransparent ? 'text-slate-300' : 'text-slate-500'
               }`}>
                 Education • Elder Care • Social Impact
@@ -155,11 +156,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links (Stretched with generous spacing) */}
-          <nav className="hidden lg:flex items-center space-x-1.5 xl:space-x-3 text-[14.5px] xl:text-[15px] font-medium">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2.5 text-[13.5px] xl:text-[14.5px] font-medium">
             <Link
               to="/"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all ${
                 isTransparent
                   ? isActive('/')
                     ? 'text-white font-bold bg-white/20 shadow-sm'
@@ -173,7 +174,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             </Link>
             <Link
               to="/about"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all ${
                 isTransparent
                   ? isActive('/about')
                     ? 'text-white font-bold bg-white/20'
@@ -186,36 +187,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               About
             </Link>
             <Link
-              to="/children"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
-                isTransparent
-                  ? isActive('/children')
-                    ? 'text-white font-bold bg-white/20'
-                    : 'text-white/90 hover:text-amber-300 hover:bg-white/10'
-                  : isActive('/children')
-                    ? 'text-[#0F3E2E] font-bold bg-emerald-50'
-                    : 'text-slate-700 hover:text-[#0F3E2E] hover:bg-slate-50'
-              }`}
-            >
-              Children
-            </Link>
-            <Link
               to="/school"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all ${
                 isTransparent
-                  ? isActive('/school')
+                  ? isActive('/school') || isActive('/children')
                     ? 'text-white font-bold bg-white/20'
                     : 'text-white/90 hover:text-amber-300 hover:bg-white/10'
-                  : isActive('/school')
+                  : isActive('/school') || isActive('/children')
                     ? 'text-[#0F3E2E] font-bold bg-emerald-50'
                     : 'text-slate-700 hover:text-[#0F3E2E] hover:bg-slate-50'
               }`}
             >
-              School
+              School & Care
             </Link>
             <Link
               to="/old-age-care"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all ${
                 isTransparent
                   ? isActive('/old-age-care')
                     ? 'text-white font-bold bg-white/20'
@@ -225,11 +212,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                     : 'text-slate-700 hover:text-[#0F3E2E] hover:bg-slate-50'
               }`}
             >
-              Old Age Care
+              Elder Care
             </Link>
             <Link
               to="/projects"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all ${
                 isTransparent
                   ? isActive('/projects')
                     ? 'text-white font-bold bg-white/20'
@@ -239,14 +226,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                     : 'text-slate-700 hover:text-[#0F3E2E] hover:bg-slate-50'
               }`}
             >
-              Our Impact
+              Impact
             </Link>
 
             {/* Get Involved Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setInvolvedDropdown(!involvedDropdown)}
-                className={`px-3.5 py-1.5 rounded-xl flex items-center space-x-1 transition-all ${
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl flex items-center space-x-1 transition-all ${
                   isTransparent
                     ? 'text-white/90 hover:text-amber-300 hover:bg-white/10'
                     : 'text-slate-700 hover:text-[#0F3E2E] hover:bg-slate-50'
@@ -276,6 +263,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                     <div className="text-xs text-slate-500">Share skills, time & love</div>
                   </Link>
                   <Link
+                    to="/children"
+                    className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-[#0F3E2E] transition"
+                  >
+                    <div className="font-semibold">Children Home & Foster Care</div>
+                    <div className="text-xs text-slate-500">Safe shelter & education</div>
+                  </Link>
+                  <Link
                     to="/donate"
                     className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-[#0F3E2E] transition"
                   >
@@ -295,7 +289,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
 
             <Link
               to="/store"
-              className={`px-3.5 py-1.5 rounded-xl font-semibold flex items-center transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl font-semibold flex items-center transition-all ${
                 isTransparent
                   ? isActive('/store')
                     ? 'text-white bg-amber-400/30'
@@ -310,7 +304,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             </Link>
             <Link
               to="/contact"
-              className={`px-3.5 py-1.5 rounded-xl transition-all ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all ${
                 isTransparent
                   ? isActive('/contact')
                     ? 'text-white font-bold bg-white/20'
@@ -325,11 +319,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
           </nav>
 
           {/* Right Action Icons & Donate CTA */}
-          <div className="flex items-center space-x-2.5 sm:space-x-4 flex-shrink-0">
+          <div className="flex items-center space-x-1.5 sm:space-x-2.5 lg:space-x-3.5 flex-shrink-0">
             {/* Search Icon */}
             <button
               onClick={onOpenSearch}
-              className={`p-2.5 rounded-full transition ${
+              className={`p-2 sm:p-2.5 rounded-full transition ${
                 isTransparent
                   ? 'text-white hover:text-amber-300 hover:bg-white/15'
                   : 'text-slate-600 hover:text-[#0F3E2E] hover:bg-slate-100'
@@ -337,13 +331,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               title="Search site & store"
               aria-label="Search"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             {/* Wishlist Icon */}
             <Link
               to="/account?tab=wishlist"
-              className={`p-2.5 rounded-full transition relative hidden sm:flex ${
+              className={`p-2 sm:p-2.5 rounded-full transition relative hidden md:flex ${
                 isTransparent
                   ? 'text-white hover:text-amber-300 hover:bg-white/15'
                   : 'text-slate-600 hover:text-amber-600 hover:bg-amber-50'
@@ -351,9 +345,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               title="Wishlist"
               aria-label="Wishlist"
             >
-              <Bookmark className="w-5 h-5" />
+              <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
               {totalWishlistItems > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 bg-amber-400 text-slate-950 rounded-full text-[10px] font-bold flex items-center justify-center shadow">
+                <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-amber-400 text-slate-950 rounded-full text-[10px] font-bold flex items-center justify-center shadow">
                   {totalWishlistItems}
                 </span>
               )}
@@ -362,7 +356,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             {/* Cart Icon */}
             <Link
               to="/cart"
-              className={`p-2.5 rounded-full transition relative ${
+              className={`p-2 sm:p-2.5 rounded-full transition relative ${
                 isTransparent
                   ? 'text-white hover:text-amber-300 hover:bg-white/15'
                   : 'text-slate-600 hover:text-[#0F3E2E] hover:bg-emerald-50'
@@ -370,9 +364,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               title="Shopping Cart"
               aria-label="Shopping Cart"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
               {totalItems > 0 && (
-                <span className={`absolute top-0 right-0 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center animate-pulse shadow ${
+                <span className={`absolute top-0.5 right-0.5 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center animate-pulse shadow ${
                   isTransparent ? 'bg-amber-400 text-slate-950 font-black' : 'bg-emerald-700 text-white'
                 }`}>
                   {totalItems}
@@ -380,32 +374,42 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               )}
             </Link>
 
-            {/* User Account / Profile Dropdown */}
+            {/* User Account / Profile Dropdown - Prominently Styled and Always Visible */}
             <div className="relative">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className={`p-2 rounded-full transition flex items-center ${
+                className={`p-1.5 sm:p-2 rounded-full transition flex items-center justify-center border shadow-xs ${
                   isTransparent
-                    ? 'text-white hover:text-amber-300 hover:bg-white/15'
-                    : 'text-slate-600 hover:text-[#0F3E2E] hover:bg-slate-100'
+                    ? 'text-white hover:text-amber-300 hover:bg-white/20 bg-white/10 border-white/25'
+                    : 'text-slate-700 hover:text-[#0F3E2E] hover:bg-emerald-50 bg-slate-100/90 border-slate-200'
                 }`}
-                title="Account"
-                aria-label="Account"
+                title={isAuthenticated && user ? `Profile: ${user.name}` : "Account / Sign In"}
+                aria-label="Account Profile"
               >
-                {isAuthenticated && user?.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user.name}
-                    className="w-8 h-8 rounded-full object-cover border-2 border-amber-400"
-                  />
+                {isAuthenticated && user ? (
+                  <div className="relative flex items-center">
+                    {!avatarError && user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        onError={() => setAvatarError(true)}
+                        className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover border border-amber-400 shadow-xs"
+                      />
+                    ) : (
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#0F3E2E] text-amber-300 font-bold text-xs flex items-center justify-center border border-amber-400">
+                        {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                      </div>
+                    )}
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-emerald-500 border border-white rounded-full"></span>
+                  </div>
                 ) : (
-                  <UserIcon className="w-5 h-5" />
+                  <UserIcon className="w-4 h-4 sm:w-5 sm:h-5 text-current" />
                 )}
               </button>
 
               {userMenuOpen && (
                 <div 
-                  className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 py-3 z-50 text-left text-slate-800"
+                  className="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-2xl shadow-2xl border border-slate-100 py-3 z-50 text-left text-slate-800 max-w-[calc(100vw-32px)]"
                   onMouseLeave={() => setUserMenuOpen(false)}
                 >
                   {isAuthenticated && user ? (
@@ -413,33 +417,47 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                       <div className="px-4 py-2 border-b border-slate-100">
                         <p className="text-xs text-slate-400">Signed in as</p>
                         <p className="text-sm font-bold text-[#0F3E2E] truncate">{user.name}</p>
-                        <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 uppercase tracking-wider">
-                          {user.role}
-                        </span>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 uppercase tracking-wider">
+                            {user.role}
+                          </span>
+                          <span className="text-[11px] text-slate-400 truncate">{user.email}</span>
+                        </div>
                       </div>
                       <div className="py-1">
                         <Link
                           to="/account"
-                          className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-[#0F3E2E]"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-[#0F3E2E]"
                         >
-                          <UserIcon className="w-4 h-4 mr-2 text-slate-400" />
-                          My Account & Donations
+                          <UserIcon className="w-4 h-4 mr-2.5 text-slate-400" />
+                          <span>My Account & Tax Receipts</span>
                         </Link>
                         {user.role === 'admin' && (
                           <Link
                             to="/admin"
-                            className="flex items-center px-4 py-2 text-sm text-emerald-700 font-semibold hover:bg-emerald-50"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center px-4 py-2.5 text-sm text-emerald-700 font-semibold hover:bg-emerald-50"
                           >
-                            <LayoutDashboard className="w-4 h-4 mr-2 text-emerald-600" />
-                            Admin Executive Portal
+                            <LayoutDashboard className="w-4 h-4 mr-2.5 text-emerald-600" />
+                            <span>Admin Executive Portal</span>
                           </Link>
                         )}
                         <Link
-                          to="/cart"
-                          className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50"
+                          to="/account?tab=wishlist"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50"
                         >
-                          <ShoppingBag className="w-4 h-4 mr-2 text-slate-400" />
-                          My Shopping Cart ({totalItems})
+                          <Bookmark className="w-4 h-4 mr-2.5 text-slate-400" />
+                          <span>Saved Wishlist ({totalWishlistItems})</span>
+                        </Link>
+                        <Link
+                          to="/cart"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50"
+                        >
+                          <ShoppingBag className="w-4 h-4 mr-2.5 text-slate-400" />
+                          <span>Shopping Cart ({totalItems})</span>
                         </Link>
                       </div>
                       <div className="pt-2 border-t border-slate-100">
@@ -461,6 +479,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                       <p className="text-xs text-slate-500 mb-3">Sign in to track your donations, sponsorships, and orders.</p>
                       <Link
                         to="/login"
+                        onClick={() => setUserMenuOpen(false)}
                         className="block w-full py-2 px-4 bg-[#0F3E2E] text-white text-center rounded-xl text-sm font-medium hover:bg-emerald-900 transition mb-2 shadow"
                       >
                         Sign In / Register
@@ -469,13 +488,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                         <span className="text-[11px] text-slate-400">or Quick Demo as:</span>
                         <div className="grid grid-cols-2 gap-1 mt-1.5">
                           <button
-                            onClick={() => quickLogin('donor')}
+                            onClick={() => {
+                              quickLogin('donor');
+                              setUserMenuOpen(false);
+                            }}
                             className="text-xs py-1 px-2 border rounded-lg hover:bg-slate-50 text-slate-700"
                           >
                             Donor
                           </button>
                           <button
-                            onClick={() => quickLogin('admin')}
+                            onClick={() => {
+                              quickLogin('admin');
+                              setUserMenuOpen(false);
+                            }}
                             className="text-xs py-1 px-2 border rounded-lg bg-emerald-50 text-emerald-800 font-medium hover:bg-emerald-100"
                           >
                             Admin
@@ -488,24 +513,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               )}
             </div>
 
-            {/* Prominent "Donate Now" CTA Button */}
+            {/* Donate CTA Button (Desktop/Tablet) */}
             <Link
               to="/donate"
-              className={`relative inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-bold rounded-2xl shadow-xl overflow-hidden group transition-all duration-300 hover:scale-102 ${
+              className={`hidden sm:inline-flex relative items-center justify-center px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl sm:rounded-2xl shadow-xl overflow-hidden group transition-all duration-300 hover:scale-102 ${
                 isTransparent
                   ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/25'
                   : 'bg-gradient-to-r from-[#0F3E2E] to-[#175B44] hover:from-emerald-900 text-white shadow-emerald-950/20'
               }`}
             >
               <span className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-              <Heart className={`w-4 h-4 mr-1.5 ${isTransparent ? 'text-slate-950 fill-slate-950' : 'text-amber-400 fill-amber-400'}`} />
-              <span>Donate Now</span>
+              <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 ${isTransparent ? 'text-slate-950 fill-slate-950' : 'text-amber-400 fill-amber-400'}`} />
+              <span>Donate</span>
+            </Link>
+
+            {/* Mobile Donate Pill */}
+            <Link
+              to="/donate"
+              className="sm:hidden px-2.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center shadow-md flex-shrink-0"
+            >
+              <Heart className="w-3.5 h-3.5 mr-1 fill-slate-950 text-slate-950" />
+              <span>Donate</span>
             </Link>
 
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`lg:hidden p-2 rounded-lg transition ${
+              className={`lg:hidden p-1.5 sm:p-2 rounded-lg transition ${
                 isTransparent ? 'text-white hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
               }`}
               aria-label="Toggle navigation menu"
@@ -517,76 +551,158 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
 
         {/* Mobile Slide-down Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-6 pt-4 pb-8 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-4 text-slate-800">
+          <div className="lg:hidden bg-white border-b border-slate-200 px-5 pt-4 pb-8 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-4 text-slate-800">
+            {/* Mobile Profile Card */}
+            <div className="p-3.5 mb-3 bg-gradient-to-r from-emerald-50 to-amber-50/60 rounded-2xl border border-emerald-200/70">
+              {isAuthenticated && user ? (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 rounded-full bg-[#0F3E2E] text-white font-bold flex items-center justify-center border-2 border-amber-400 overflow-hidden shadow-xs">
+                        {!avatarError && user.avatar ? (
+                          <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-amber-300">{user.name.charAt(0).toUpperCase()}</span>
+                        )}
+                      </div>
+                      <div className="text-left">
+                        <p className="text-[11px] text-slate-500 font-medium">Signed In</p>
+                        <p className="text-sm font-bold text-[#0F3E2E] truncate max-w-[150px]">{user.name}</p>
+                        <span className="inline-block text-[10px] font-semibold text-emerald-800 uppercase bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                          {user.role}
+                        </span>
+                      </div>
+                    </div>
+                    <Link
+                      to="/account"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-3 py-1.5 bg-[#0F3E2E] text-white rounded-xl text-xs font-bold shadow hover:bg-emerald-900 transition"
+                    >
+                      My Profile
+                    </Link>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-200/60 text-xs">
+                    <Link
+                      to="/account"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="py-1.5 px-2.5 bg-white rounded-lg border border-slate-200 text-center font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      Tax Receipts
+                    </Link>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="py-1.5 px-2.5 bg-red-50 text-red-700 rounded-lg border border-red-200 text-center font-semibold hover:bg-red-100"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center border border-slate-300">
+                      <UserIcon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-800">Welcome, Guest</p>
+                      <p className="text-[11px] text-slate-500">Sign in to track donations & orders</p>
+                    </div>
+                  </div>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="px-3 py-1.5 bg-[#0F3E2E] text-white rounded-xl text-xs font-bold shadow hover:bg-emerald-900 transition"
+                  >
+                    Sign In
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <Link
               to="/"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
               Home
             </Link>
             <Link
               to="/about"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
               About Us
             </Link>
             <Link
               to="/children"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
-              Children & Education
+              Children & Foster Care
             </Link>
             <Link
               to="/school"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
-              Our School
+              Ismita Vidyalaya (Our School)
             </Link>
             <Link
               to="/old-age-care"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
-              Old Age Care
+              Old Age Care Sanctuary
             </Link>
             <Link
               to="/sponsor"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-amber-700 bg-amber-50"
             >
               Sponsor a Child or Elder
             </Link>
             <Link
               to="/projects"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
               Our Impact & Projects
             </Link>
             <Link
               to="/volunteer"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
               Volunteer With Us
             </Link>
             <Link
               to="/store"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-emerald-800 bg-emerald-50"
             >
               E-Commerce Store (Shop With Purpose)
             </Link>
             <Link
               to="/gallery"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
               Photo & Video Gallery
             </Link>
             <Link
               to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
             >
               Contact Us
             </Link>
             <Link
               to="/account"
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-slate-50"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-base font-semibold text-[#0F3E2E] bg-slate-50 border border-slate-200"
             >
               My Account & History
             </Link>
@@ -594,6 +710,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             <div className="pt-4 border-t border-slate-100 flex flex-col gap-2">
               <Link
                 to="/donate"
+                onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-3.5 bg-[#0F3E2E] text-white text-center rounded-xl font-bold flex items-center justify-center shadow-lg"
               >
                 <Heart className="w-5 h-5 mr-2 text-amber-400 fill-amber-400" />
