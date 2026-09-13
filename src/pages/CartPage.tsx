@@ -100,19 +100,19 @@ export const CartPage: React.FC = () => {
           {cart.map(({ product, quantity }) => (
             <div
               key={product.id}
-              className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4"
+              className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
-              <div className="flex items-center space-x-4 w-full sm:w-auto">
+              <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-20 h-20 rounded-2xl object-cover border border-slate-100 flex-shrink-0"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl object-cover border border-slate-100 flex-shrink-0"
                 />
-                <div>
-                  <span className="text-[11px] font-semibold text-emerald-800 uppercase tracking-wider">
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-800 uppercase tracking-wider">
                     {product.brand}
                   </span>
-                  <h3 className="font-bold text-slate-900 text-base leading-snug line-clamp-1">
+                  <h3 className="font-bold text-slate-900 text-sm sm:text-base leading-snug truncate">
                     {product.name}
                   </h3>
                   <p className="text-xs text-slate-500 font-medium">{product.weight} • ₹{product.price} each</p>
@@ -120,7 +120,7 @@ export const CartPage: React.FC = () => {
               </div>
 
               {/* Quantity Controls & Price */}
-              <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-6">
+              <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-4 sm:space-x-6 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
                 <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
                   <button
                     onClick={() => updateQuantity(product.id, quantity - 1)}
@@ -139,8 +139,8 @@ export const CartPage: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="text-right min-w-[70px]">
-                  <p className="text-base font-extrabold text-[#0F3E2E]">
+                <div className="text-right min-w-[65px] sm:min-w-[70px]">
+                  <p className="text-sm sm:text-base font-extrabold text-[#0F3E2E]">
                     ₹{(product.price * quantity).toLocaleString('en-IN')}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export const CartPage: React.FC = () => {
         </div>
 
         {/* Order Summary Box */}
-        <div className="lg:col-span-4 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+        <div className="lg:col-span-4 bg-white p-5 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-5 sm:space-y-6">
           <h2 className="text-xl font-bold text-slate-900 font-heading border-b pb-4">Order Summary</h2>
 
           {/* Pricing breakdown */}

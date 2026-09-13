@@ -163,11 +163,11 @@ export const CheckoutPage: React.FC = () => {
           {/* Left: Customer & Address Information */}
           <div className="lg:col-span-7 space-y-8">
             {/* Customer Details */}
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
+            <div className="bg-white p-5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
               <h2 className="text-lg font-bold text-slate-900 font-heading border-b pb-3">
                 1. Customer Details
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
                     Full Legal Name *
@@ -211,7 +211,7 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* Delivery Address */}
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
+            <div className="bg-white p-5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
               <h2 className="text-lg font-bold text-slate-900 font-heading border-b pb-3">
                 2. Delivery Address
               </h2>
@@ -229,7 +229,7 @@ export const CheckoutPage: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase text-slate-500 mb-1">City *</label>
                   <input
@@ -268,7 +268,7 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* Payment Method Selector */}
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
+            <div className="bg-white p-5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
                 <h2 className="text-lg font-bold text-slate-900 font-heading">
                   3. Payment Method
@@ -278,7 +278,7 @@ export const CheckoutPage: React.FC = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {[
                   { id: 'UPI', label: 'UPI / QR', icon: Smartphone },
                   { id: 'Card', label: 'Credit / Debit', icon: CreditCard },
@@ -291,7 +291,7 @@ export const CheckoutPage: React.FC = () => {
                       key={item.id}
                       type="button"
                       onClick={() => setPaymentMethod(item.id as any)}
-                      className={`p-3.5 rounded-2xl border text-center text-xs font-bold transition flex flex-col items-center justify-center space-y-1.5 ${
+                      className={`p-3 sm:p-3.5 rounded-2xl border text-center text-xs font-bold transition flex flex-col items-center justify-center space-y-1.5 ${
                         paymentMethod === item.id
                           ? 'border-[#0F3E2E] bg-emerald-50 text-[#0F3E2E] ring-2 ring-emerald-800/20'
                           : 'border-slate-200 text-slate-700 hover:bg-slate-50'
@@ -311,7 +311,7 @@ export const CheckoutPage: React.FC = () => {
           </div>
 
           {/* Right: Order Review & Checkout Confirmation */}
-          <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+          <div className="lg:col-span-5 bg-white p-5 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-5 sm:space-y-6">
             <h2 className="text-xl font-bold text-slate-900 font-heading border-b pb-4">
               Your Order ({cart.length} items)
             </h2>
@@ -359,14 +359,14 @@ export const CheckoutPage: React.FC = () => {
             <button
               type="submit"
               disabled={processing || cart.length === 0}
-              className="w-full py-4 bg-[#0F3E2E] hover:bg-emerald-900 text-white font-extrabold rounded-2xl text-sm transition shadow-xl flex items-center justify-center space-x-2"
+              className="w-full py-3.5 sm:py-4 bg-[#0F3E2E] hover:bg-emerald-900 text-white font-extrabold rounded-2xl text-xs sm:text-sm transition shadow-xl flex items-center justify-center space-x-2 text-center"
             >
               {processing ? (
                 <span>Confirming Order...</span>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span>Place Order & Empower Lives (₹{total.toLocaleString('en-IN')})</span>
+                  <span>Place Order (₹{total.toLocaleString('en-IN')})</span>
                 </>
               )}
             </button>

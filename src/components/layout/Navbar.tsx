@@ -551,7 +551,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
 
         {/* Mobile Slide-down Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-5 pt-4 pb-8 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-4 text-slate-800">
+          <div className="lg:hidden bg-white border-b border-slate-200 px-4 sm:px-5 pt-4 pb-8 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-4 text-slate-800 max-h-[calc(100dvh-75px)] overflow-y-auto">
             {/* Mobile Profile Card */}
             <div className="p-3.5 mb-3 bg-gradient-to-r from-emerald-50 to-amber-50/60 rounded-2xl border border-emerald-200/70">
               {isAuthenticated && user ? (

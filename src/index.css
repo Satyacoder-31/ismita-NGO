@@ -12,6 +12,12 @@
     background-color: #FBFBFA;
     color: #1E293B;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, .font-heading {
@@ -21,6 +27,15 @@
   .font-serif {
     font-family: var(--font-serif);
   }
+}
+
+/* Hide scrollbar for clean horizontal swiping on mobile devices */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Custom Luxury Gradients & Utilities */

@@ -97,8 +97,8 @@ export const UserAccountPage: React.FC = () => {
 
       {/* Main Account Tabs Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Sidebar Tabs */}
-        <div className="lg:col-span-3 bg-white p-3 rounded-3xl border border-slate-200/80 shadow-sm space-y-1">
+        {/* Left Sidebar Tabs - Horizontal Scroll on Mobile, Vertical on Desktop */}
+        <div className="lg:col-span-3 bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-sm flex lg:flex-col overflow-x-auto lg:overflow-visible gap-1.5 lg:gap-1 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-3">
           {[
             { id: 'donations', label: `My Donations (${donations.length})`, icon: Heart },
             { id: 'sponsorships', label: `My Sponsorships (${sponsorships.length})`, icon: ShieldCheck },
@@ -112,10 +112,10 @@ export const UserAccountPage: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id as any)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-xs font-bold transition text-left ${
+                className={`flex items-center space-x-2 sm:space-x-3 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs font-bold transition text-left whitespace-nowrap lg:whitespace-normal flex-shrink-0 lg:flex-shrink w-auto lg:w-full ${
                   activeTab === item.id
-                    ? 'bg-emerald-50 text-[#0F3E2E] shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-50'
+                    ? 'bg-[#0F3E2E] text-white lg:bg-emerald-50 lg:text-[#0F3E2E] shadow-sm'
+                    : 'text-slate-600 hover:bg-slate-50 bg-slate-50 lg:bg-transparent'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -126,7 +126,7 @@ export const UserAccountPage: React.FC = () => {
         </div>
 
         {/* Right Content Area */}
-        <div className="lg:col-span-9 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm min-h-[450px]">
+        <div className="lg:col-span-9 bg-white p-5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm min-h-[450px]">
           {/* 1. My Donations Tab */}
           {activeTab === 'donations' && (
             <div className="space-y-6">

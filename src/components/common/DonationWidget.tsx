@@ -165,13 +165,13 @@ export const DonationWidget: React.FC<DonationWidgetProps> = ({
   }
 
   return (
-    <div className={`bg-white rounded-3xl border border-slate-200/80 shadow-2xl overflow-hidden ${compact ? 'p-6' : 'p-6 sm:p-10'}`}>
+    <div className={`bg-white rounded-3xl border border-slate-200/80 shadow-2xl overflow-hidden ${compact ? 'p-4 sm:p-6' : 'p-4 sm:p-8 lg:p-10'}`}>
       {/* Frequency Switcher: One-Time vs Monthly */}
-      <div className="flex p-1.5 bg-slate-100 rounded-2xl max-w-sm mx-auto mb-6">
+      <div className="flex p-1 sm:p-1.5 bg-slate-100 rounded-2xl max-w-sm mx-auto mb-5 sm:mb-6">
         <button
           type="button"
           onClick={() => setFrequency('One-Time')}
-          className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition ${
+          className={`flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl transition ${
             frequency === 'One-Time'
               ? 'bg-white text-[#0F3E2E] shadow-sm'
               : 'text-slate-600 hover:text-slate-900'
@@ -182,7 +182,7 @@ export const DonationWidget: React.FC<DonationWidgetProps> = ({
         <button
           type="button"
           onClick={() => setFrequency('Monthly')}
-          className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center space-x-1.5 ${
+          className={`flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center space-x-1.5 ${
             frequency === 'Monthly'
               ? 'bg-[#0F3E2E] text-white shadow-sm'
               : 'text-slate-600 hover:text-slate-900'
@@ -193,19 +193,19 @@ export const DonationWidget: React.FC<DonationWidgetProps> = ({
         </button>
       </div>
 
-      <form onSubmit={handleInitiateDonation} className="space-y-6">
+      <form onSubmit={handleInitiateDonation} className="space-y-5 sm:space-y-6">
         {/* Cause Category Selector */}
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
             Select Donation Purpose
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setCategory(cat)}
-                className={`p-2.5 text-xs font-semibold rounded-xl border text-center transition ${
+                className={`p-2 sm:p-2.5 text-xs font-semibold rounded-xl border text-center transition ${
                   category === cat
                     ? 'border-[#0F3E2E] bg-emerald-50 text-[#0F3E2E] ring-2 ring-emerald-800/20'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
@@ -222,13 +222,13 @@ export const DonationWidget: React.FC<DonationWidgetProps> = ({
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
             Select Contribution Amount (INR)
           </label>
-          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2.5">
             {PRESET_AMOUNTS.map((amt) => (
               <button
                 key={amt}
                 type="button"
                 onClick={() => handleAmountSelect(amt)}
-                className={`py-3 px-2 rounded-xl text-sm font-extrabold border transition ${
+                className={`py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-xs sm:text-sm font-extrabold border transition ${
                   !isCustom && amount === amt
                     ? 'bg-[#0F3E2E] text-white border-[#0F3E2E] shadow-md'
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
@@ -247,7 +247,7 @@ export const DonationWidget: React.FC<DonationWidgetProps> = ({
               placeholder="Or enter custom amount (e.g. 15,000)"
               value={customAmount}
               onChange={handleCustomChange}
-              className={`w-full pl-9 pr-4 py-3 rounded-xl border text-sm font-semibold focus:outline-none transition ${
+              className={`w-full pl-9 pr-4 py-2.5 sm:py-3 rounded-xl border text-xs sm:text-sm font-semibold focus:outline-none transition ${
                 isCustom
                   ? 'border-[#0F3E2E] ring-2 ring-emerald-800/20 bg-emerald-50/20'
                   : 'border-slate-200 hover:border-slate-300'
@@ -342,9 +342,9 @@ export const DonationWidget: React.FC<DonationWidgetProps> = ({
 
       {/* Mock Payment Gateway Modal */}
       {showPaymentModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/75 backdrop-blur-sm animate-in fade-in">
           <div 
-            className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-8 space-y-6 text-slate-800"
+            className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 p-5 sm:p-8 space-y-5 sm:space-y-6 text-slate-800 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Payment Modal Header */}

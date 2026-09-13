@@ -60,17 +60,17 @@ export const StatsCounter: React.FC<StatsCounterProps> = ({
   }, [hasAnimated, value, duration]);
 
   return (
-    <div ref={ref} className="text-center p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-100 shadow-sm hover:shadow-md transition-all">
-      <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F3E2E] tracking-tight font-heading flex items-center justify-center">
+    <div ref={ref} className="text-center p-3.5 sm:p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-100 shadow-sm hover:shadow-md transition-all">
+      <div className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F3E2E] tracking-tight font-heading flex items-center justify-center flex-wrap">
         <span>{prefix}</span>
         <span>{count.toLocaleString('en-IN')}</span>
         <span className="text-amber-500 ml-0.5">{suffix}</span>
       </div>
-      <div className="mt-2 text-sm sm:text-base font-bold text-slate-800 font-heading">
+      <div className="mt-1.5 sm:mt-2 text-xs sm:text-base font-bold text-slate-800 font-heading">
         {label}
       </div>
       {description && (
-        <div className="mt-1 text-xs text-slate-500 max-w-[200px] mx-auto">
+        <div className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500 max-w-[200px] mx-auto line-clamp-2 sm:line-clamp-none">
           {description}
         </div>
       )}

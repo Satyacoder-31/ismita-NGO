@@ -12,25 +12,25 @@ export const TaxReceiptModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto animate-in fade-in">
       <div 
-        className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8"
+        className="w-full max-w-2xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-4 sm:my-8 max-h-[95vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Actions Header */}
-        <div className="bg-[#0A192F] px-6 py-4 flex items-center justify-between text-white">
+        <div className="bg-[#0A192F] px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between text-white flex-shrink-0">
           <div className="flex items-center space-x-2">
             <ShieldCheck className="w-5 h-5 text-emerald-400" />
-            <span className="font-bold text-sm">Official 80G Tax Exemption Certificate</span>
+            <span className="font-bold text-xs sm:text-sm">Official 80G Tax Exemption Certificate</span>
           </div>
           <div className="flex items-center space-x-2">
             <button
               onClick={handlePrint}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-medium transition"
+              className="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-medium transition"
               title="Print Receipt"
             >
-              <Printer className="w-4 h-4" />
-              <span>Print / Save PDF</span>
+              <Printer className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Print / Save PDF</span>
             </button>
             <button
               onClick={closeReceiptModal}
@@ -43,18 +43,18 @@ export const TaxReceiptModal: React.FC = () => {
         </div>
 
         {/* Printable Receipt Body */}
-        <div className="p-8 sm:p-10 bg-white text-slate-800 space-y-6 print:p-0">
+        <div className="p-4 sm:p-8 lg:p-10 bg-white text-slate-800 space-y-5 sm:space-y-6 print:p-0 overflow-y-auto flex-1">
           {/* Certificate Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-emerald-900/20 pb-6 gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-emerald-900/20 pb-4 sm:pb-6 gap-3 sm:gap-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-900 flex items-center justify-center text-white">
-                <Heart className="w-7 h-7 text-amber-400 fill-amber-400" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-900 flex items-center justify-center text-white flex-shrink-0">
+                <Heart className="w-6 h-6 sm:w-7 sm:h-7 text-amber-400 fill-amber-400" />
               </div>
               <div>
-                <h2 className="font-heading font-extrabold text-2xl text-[#0F3E2E] leading-none">
+                <h2 className="font-heading font-extrabold text-lg sm:text-2xl text-[#0F3E2E] leading-tight">
                   ISMITA CHARITABLE FOUNDATION
                 </h2>
-                <p className="text-xs text-slate-500 font-medium mt-1">
+                <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 sm:mt-1">
                   Regd. Non-Profit Trust • Registration No: 4021/IV/2015
                 </p>
                 <p className="text-[11px] text-slate-400">

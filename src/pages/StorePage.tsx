@@ -81,9 +81,9 @@ export const StorePage: React.FC = () => {
   return (
     <div className="space-y-12 pb-20">
       {/* Top Hero Banner */}
-      <section className="bg-gradient-to-r from-[#0F3E2E] via-[#144f3b] to-[#0A192F] text-white py-16 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-r from-[#0F3E2E] via-[#144f3b] to-[#0A192F] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-2xl space-y-4">
+          <div className="max-w-2xl space-y-3 sm:space-y-4 text-center md:text-left">
             <span className="px-3.5 py-1.5 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold uppercase tracking-wider border border-amber-400/30 inline-block">
               Shop With Purpose • 100% Social Impact
             </span>
@@ -95,12 +95,12 @@ export const StorePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 text-center max-w-xs w-full">
-            <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center mx-auto mb-3">
-              <Sparkles className="w-6 h-6" />
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-6 border border-white/20 text-center max-w-xs w-full">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center mx-auto mb-2.5 sm:mb-3">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <p className="text-xs text-amber-200 uppercase font-bold tracking-wider">Social Impact</p>
-            <p className="text-2xl font-black text-white mt-0.5">₹150 Order =</p>
+            <p className="text-xl sm:text-2xl font-black text-white mt-0.5">₹150 Order =</p>
             <p className="text-xs text-slate-200 mt-1">1 Nutritious Mid-Day School Meal for a Child</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export const StorePage: React.FC = () => {
       {/* Main Store Catalog Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search & Sort Toolbar */}
-        <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-4 mb-8">
+        <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
           {/* Search Input */}
           <div className="relative w-full lg:w-96">
             <Search className="w-5 h-5 absolute left-3.5 top-3 text-slate-400" />
@@ -152,12 +152,12 @@ export const StorePage: React.FC = () => {
         </div>
 
         {/* Categories Bar */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-3 sm:pb-4 mb-6 sm:mb-8 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition capitalize ${
+              className={`px-3.5 sm:px-4 py-2 rounded-xl sm:rounded-2xl text-xs font-bold whitespace-nowrap transition capitalize ${
                 selectedCategory === cat
                   ? 'bg-[#0F3E2E] text-white shadow-md'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -199,7 +199,7 @@ export const StorePage: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

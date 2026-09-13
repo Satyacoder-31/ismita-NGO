@@ -47,7 +47,7 @@ export const HeroSlider: React.FC = () => {
 
   return (
     <div 
-      className="relative w-full h-screen min-h-[700px] max-h-[1050px] overflow-hidden bg-slate-950 select-none group"
+      className="relative w-full h-[100dvh] min-h-[580px] sm:min-h-[680px] max-h-[1050px] overflow-hidden bg-slate-950 select-none group"
     >
       {/* Background Slides stretching all the way to the top under header */}
       {HERO_SLIDES.map((slide, index) => {
@@ -72,29 +72,29 @@ export const HeroSlider: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-black/50" />
 
             {/* Slide Content Overlay (Wide & Generously Spaced) */}
-            <div className="relative z-20 max-w-[1720px] w-full mx-auto h-full px-6 sm:px-8 lg:px-12 xl:px-16 flex items-center pt-32 sm:pt-40 pb-20">
-              <div className="max-w-3xl space-y-6">
+            <div className="relative z-20 max-w-[1720px] w-full mx-auto h-full px-4 sm:px-8 lg:px-12 xl:px-16 flex items-center pt-24 sm:pt-40 pb-24 sm:pb-20">
+              <div className="max-w-3xl space-y-4 sm:space-y-6 w-full">
                 {/* Tagline Pill */}
-                <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-xs sm:text-sm font-semibold tracking-wider uppercase">
+                <div className="inline-flex items-center space-x-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] sm:text-sm font-semibold tracking-wider uppercase">
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
                   <span>{slide.tagline}</span>
                 </div>
 
                 {/* Main Headline */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white font-heading tracking-tight leading-[1.06]">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white font-heading tracking-tight leading-[1.12] sm:leading-[1.06]">
                   {slide.headline}
                 </h1>
 
                 {/* Subheading */}
-                <p className="text-base sm:text-lg md:text-xl text-slate-200 font-normal leading-relaxed max-w-2xl">
+                <p className="text-sm sm:text-lg md:text-xl text-slate-200 font-normal leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-none">
                   {slide.subheading}
                 </p>
 
                 {/* CTA Action Buttons */}
-                <div className="flex flex-wrap gap-4 pt-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4 w-full sm:w-auto">
                   <Link
                     to={slide.primaryBtn.link}
-                    className="px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold rounded-2xl shadow-2xl hover:shadow-amber-500/30 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2 text-sm sm:text-base"
+                    className="w-full sm:w-auto justify-center px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold rounded-2xl shadow-2xl hover:shadow-amber-500/30 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2 text-sm sm:text-base text-center"
                   >
                     <Heart className="w-5 h-5 fill-slate-950" />
                     <span>{slide.primaryBtn.text}</span>
@@ -102,7 +102,7 @@ export const HeroSlider: React.FC = () => {
 
                   <Link
                     to={slide.secondaryBtn.link}
-                    className="px-8 py-4 bg-white/15 hover:bg-white/25 text-white font-bold rounded-2xl backdrop-blur-md border border-white/30 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2 text-sm sm:text-base"
+                    className="w-full sm:w-auto justify-center px-6 sm:px-8 py-3.5 sm:py-4 bg-white/15 hover:bg-white/25 text-white font-bold rounded-2xl backdrop-blur-md border border-white/30 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2 text-sm sm:text-base text-center"
                   >
                     <span>{slide.secondaryBtn.text}</span>
                     <ArrowRight className="w-4 h-4" />
@@ -131,9 +131,9 @@ export const HeroSlider: React.FC = () => {
       </button>
 
       {/* Bottom Controls Bar: Indicators & Play/Pause (Wide Container) */}
-      <div className="absolute bottom-8 left-0 right-0 z-30 max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between">
+      <div className="absolute bottom-5 sm:bottom-8 left-0 right-0 z-30 max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between">
         {/* Indicators */}
-        <div className="flex items-center space-x-2.5 sm:space-x-3.5">
+        <div className="flex items-center space-x-2 sm:space-x-3.5">
           {HERO_SLIDES.map((slide, index) => (
             <button
               key={slide.id}
@@ -144,8 +144,8 @@ export const HeroSlider: React.FC = () => {
               <div
                 className={`h-2 rounded-full transition-all duration-500 ${
                   index === currentSlide
-                    ? 'w-12 sm:w-16 bg-amber-400 shadow-lg shadow-amber-400/50'
-                    : 'w-4 sm:w-7 bg-white/40 group-hover/ind:bg-white/80'
+                    ? 'w-8 sm:w-16 bg-amber-400 shadow-lg shadow-amber-400/50'
+                    : 'w-3 sm:w-7 bg-white/40 group-hover/ind:bg-white/80'
                 }`}
               />
             </button>
@@ -153,7 +153,7 @@ export const HeroSlider: React.FC = () => {
         </div>
 
         {/* Slide Counter & Play/Pause Button */}
-        <div className="flex items-center space-x-3 bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 text-white text-xs font-medium">
+        <div className="flex items-center space-x-2.5 sm:space-x-3 bg-black/50 backdrop-blur-md px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 text-white text-[11px] sm:text-xs font-medium">
           <span className="font-mono">
             0{currentSlide + 1} / 0{HERO_SLIDES.length}
           </span>
