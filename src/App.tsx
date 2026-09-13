@@ -56,8 +56,8 @@ function MainLayout() {
       {/* Global Fixed Luxury Navbar */}
       <Navbar onOpenSearch={() => setSearchModalOpen(true)} />
 
-      {/* Main Content Area: Home is pt-0 for full-bleed hero stretch under header; inner pages have comfortable top spacing */}
-      <main className={`flex-1 ${isHome ? '' : 'pt-20 sm:pt-24 lg:pt-28'}`}>
+      {/* Main Content Area: Home is pt-0 for full-bleed hero stretch under header; inner pages have comfortable top spacing; pb-16 on mobile for bottom bar */}
+      <main className={`flex-1 ${isHome ? '' : 'pt-20 sm:pt-24 lg:pt-28'} pb-16 lg:pb-0`}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />

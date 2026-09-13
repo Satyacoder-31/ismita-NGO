@@ -11,9 +11,15 @@ import {
   Sparkles, 
   Phone, 
   ShieldCheck, 
-  Bookmark,
-  LogOut,
-  LayoutDashboard
+  Bookmark, 
+  LogOut, 
+  LayoutDashboard,
+  Home,
+  GraduationCap,
+  Users,
+  HandHeart,
+  FileText,
+  ChevronRight
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
@@ -46,6 +52,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
   // Close menus on route change
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -59,7 +77,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
   const isTransparent = isHome && !isScrolled;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <>
+      <div className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       {/* Top Pre-Header Bar (smoothly collapses and disappears on scroll) */}
       <div 
         className={`transition-all duration-300 text-xs overflow-hidden ${
@@ -517,209 +536,372 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             <Link
               to="/donate"
               className={`hidden sm:inline-flex relative items-center justify-center px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl sm:rounded-2xl shadow-xl overflow-hidden group transition-all duration-300 hover:scale-102 ${
-                isTransparent
+                isTransparent && !mobileMenuOpen
                   ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/25'
                   : 'bg-gradient-to-r from-[#0F3E2E] to-[#175B44] hover:from-emerald-900 text-white shadow-emerald-950/20'
               }`}
             >
               <span className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-              <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 ${isTransparent ? 'text-slate-950 fill-slate-950' : 'text-amber-400 fill-amber-400'}`} />
+              <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 ${isTransparent && !mobileMenuOpen ? 'text-slate-950 fill-slate-950' : 'text-amber-400 fill-amber-400'}`} />
               <span>Donate</span>
             </Link>
 
-            {/* Mobile Donate Pill */}
-            <Link
-              to="/donate"
-              className="sm:hidden px-2.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center shadow-md flex-shrink-0"
-            >
-              <Heart className="w-3.5 h-3.5 mr-1 fill-slate-950 text-slate-950" />
-              <span>Donate</span>
-            </Link>
-
-            {/* Mobile Hamburger Toggle */}
+            {/* Mobile Menu Toggle Button: Prominently Labeled & Styled */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`lg:hidden p-1.5 sm:p-2 rounded-lg transition ${
-                isTransparent ? 'text-white hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
+              className={`lg:hidden flex items-center space-x-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 border shadow-xs flex-shrink-0 ${
+                isTransparent && !mobileMenuOpen
+                  ? 'text-white bg-white/15 border-white/25 hover:bg-white/25'
+                  : 'text-[#0F3E2E] bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
               }`}
-              aria-label="Toggle navigation menu"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? (
+                <>
+                  <X className="w-4 h-4 text-red-500 stroke-[2.5]" />
+                  <span className="font-bold">Close</span>
+                </>
+              ) : (
+                <>
+                  <Menu className="w-4 h-4 text-amber-500 stroke-[2.5]" />
+                  <span className="font-bold tracking-wide">Menu</span>
+                </>
+              )}
             </button>
           </div>
         </div>
+      </header>
+    </div>
 
-        {/* Mobile Slide-down Drawer Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-4 sm:px-5 pt-4 pb-8 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-4 text-slate-800 max-h-[calc(100dvh-75px)] overflow-y-auto">
-            {/* Mobile Profile Card */}
-            <div className="p-3.5 mb-3 bg-gradient-to-r from-emerald-50 to-amber-50/60 rounded-2xl border border-emerald-200/70">
-              {isAuthenticated && user ? (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-full bg-[#0F3E2E] text-white font-bold flex items-center justify-center border-2 border-amber-400 overflow-hidden shadow-xs">
-                        {!avatarError && user.avatar ? (
-                          <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-amber-300">{user.name.charAt(0).toUpperCase()}</span>
-                        )}
-                      </div>
-                      <div className="text-left">
-                        <p className="text-[11px] text-slate-500 font-medium">Signed In</p>
-                        <p className="text-sm font-bold text-[#0F3E2E] truncate max-w-[150px]">{user.name}</p>
-                        <span className="inline-block text-[10px] font-semibold text-emerald-800 uppercase bg-emerald-100/80 px-2 py-0.5 rounded-full">
-                          {user.role}
-                        </span>
-                      </div>
-                    </div>
-                    <Link
-                      to="/account"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="px-3 py-1.5 bg-[#0F3E2E] text-white rounded-xl text-xs font-bold shadow hover:bg-emerald-900 transition"
-                    >
-                      My Profile
-                    </Link>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-200/60 text-xs">
-                    <Link
-                      to="/account"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="py-1.5 px-2.5 bg-white rounded-lg border border-slate-200 text-center font-semibold text-slate-700 hover:bg-slate-50"
-                    >
-                      Tax Receipts
-                    </Link>
-                    <button
-                      onClick={() => {
-                        logout();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="py-1.5 px-2.5 bg-red-50 text-red-700 rounded-lg border border-red-200 text-center font-semibold hover:bg-red-100"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              ) : (
+      {/* Mobile Drawer Overlay Backdrop */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 lg:hidden animate-in fade-in duration-200"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Full Slide-Over Drawer Menu */}
+      <aside 
+        className={`fixed top-0 right-0 bottom-0 w-[88vw] max-w-[390px] bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-out lg:hidden ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
+        }`}
+        aria-label="Mobile Navigation Drawer"
+      >
+        {/* Drawer Top Header */}
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-[#0A192F] text-white">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-amber-500 flex items-center justify-center">
+              <Heart className="w-4 h-4 text-amber-300 fill-amber-300" />
+            </div>
+            <div>
+              <div className="font-heading font-extrabold text-sm tracking-tight leading-none text-white">
+                ISMITA <span className="font-light text-amber-400">FOUNDATION</span>
+              </div>
+              <span className="text-[9px] text-slate-400 uppercase tracking-wider">Social Welfare & Care</span>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Drawer Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 text-slate-800">
+          {/* Search Bar Action in Drawer */}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenSearch();
+            }}
+            className="w-full py-2.5 px-3.5 bg-slate-100 hover:bg-slate-200/80 rounded-xl text-left text-xs text-slate-600 flex items-center justify-between transition border border-slate-200/60"
+          >
+            <span className="flex items-center">
+              <Search className="w-4 h-4 mr-2 text-slate-400" />
+              Search causes, programs, store...
+            </span>
+            <span className="text-[10px] font-semibold bg-white px-2 py-0.5 rounded-md border border-slate-200 text-slate-500">Find</span>
+          </button>
+
+          {/* Mobile Profile Card */}
+          <div className="p-3.5 bg-gradient-to-r from-emerald-50 to-amber-50/70 rounded-2xl border border-emerald-200/70 shadow-xs">
+            {isAuthenticated && user ? (
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2.5">
-                    <div className="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center border border-slate-300">
-                      <UserIcon className="w-5 h-5" />
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-[#0F3E2E] text-white font-bold flex items-center justify-center border-2 border-amber-400 overflow-hidden shadow-xs">
+                      {!avatarError && user.avatar ? (
+                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-amber-300">{user.name.charAt(0).toUpperCase()}</span>
+                      )}
                     </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-800">Welcome, Guest</p>
-                      <p className="text-[11px] text-slate-500">Sign in to track donations & orders</p>
+                    <div className="text-left">
+                      <p className="text-[11px] text-slate-500 font-medium">Signed In</p>
+                      <p className="text-sm font-bold text-[#0F3E2E] truncate max-w-[150px]">{user.name}</p>
+                      <span className="inline-block text-[10px] font-semibold text-emerald-800 uppercase bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                        {user.role}
+                      </span>
                     </div>
                   </div>
                   <Link
-                    to="/login"
+                    to="/account"
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-1.5 bg-[#0F3E2E] text-white rounded-xl text-xs font-bold shadow hover:bg-emerald-900 transition"
                   >
-                    Sign In
+                    My Profile
                   </Link>
                 </div>
-              )}
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-200/60 text-xs">
+                  <Link
+                    to="/account"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-1.5 px-2.5 bg-white rounded-lg border border-slate-200 text-center font-semibold text-slate-700 hover:bg-slate-50"
+                  >
+                    Tax Receipts
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="py-1.5 px-2.5 bg-red-50 text-red-700 rounded-lg border border-red-200 text-center font-semibold hover:bg-red-100"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center border border-slate-300">
+                    <UserIcon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Welcome, Guest</p>
+                    <p className="text-[11px] text-slate-500">Sign in to track donations & orders</p>
+                  </div>
+                </div>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3 py-1.5 bg-[#0F3E2E] text-white rounded-xl text-xs font-bold shadow hover:bg-emerald-900 transition"
+                >
+                  Sign In
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Persona Demo Switcher */}
+          <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-xs">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Quick Persona Switch</span>
+              <span className="text-[10px] text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded font-medium">1-Click Demo</span>
             </div>
-
-            <Link
-              to="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              About Us
-            </Link>
-            <Link
-              to="/children"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Children & Foster Care
-            </Link>
-            <Link
-              to="/school"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Ismita Vidyalaya (Our School)
-            </Link>
-            <Link
-              to="/old-age-care"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Old Age Care Sanctuary
-            </Link>
-            <Link
-              to="/sponsor"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-amber-700 bg-amber-50"
-            >
-              Sponsor a Child or Elder
-            </Link>
-            <Link
-              to="/projects"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Our Impact & Projects
-            </Link>
-            <Link
-              to="/volunteer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Volunteer With Us
-            </Link>
-            <Link
-              to="/store"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-emerald-800 bg-emerald-50"
-            >
-              E-Commerce Store (Shop With Purpose)
-            </Link>
-            <Link
-              to="/gallery"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Photo & Video Gallery
-            </Link>
-            <Link
-              to="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50"
-            >
-              Contact Us
-            </Link>
-            <Link
-              to="/account"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-semibold text-[#0F3E2E] bg-slate-50 border border-slate-200"
-            >
-              My Account & History
-            </Link>
-
-            <div className="pt-4 border-t border-slate-100 flex flex-col gap-2">
-              <Link
-                to="/donate"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3.5 bg-[#0F3E2E] text-white text-center rounded-xl font-bold flex items-center justify-center shadow-lg"
+            <div className="grid grid-cols-3 gap-1.5 text-center">
+              <button 
+                onClick={() => quickLogin('donor')}
+                className="py-1 px-2 rounded-lg bg-white border border-slate-200 font-semibold text-slate-700 hover:bg-emerald-50 hover:text-[#0F3E2E] transition"
               >
-                <Heart className="w-5 h-5 mr-2 text-amber-400 fill-amber-400" />
-                Donate Now (80G Tax Exemption)
+                Donor
+              </button>
+              <button 
+                onClick={() => quickLogin('sponsor')}
+                className="py-1 px-2 rounded-lg bg-white border border-slate-200 font-semibold text-slate-700 hover:bg-emerald-50 hover:text-[#0F3E2E] transition"
+              >
+                Sponsor
+              </button>
+              <button 
+                onClick={() => quickLogin('admin')}
+                className="py-1 px-2 rounded-lg bg-emerald-100 border border-emerald-200 font-bold text-emerald-900 hover:bg-emerald-200 transition"
+              >
+                Admin
+              </button>
+            </div>
+          </div>
+
+          {/* Navigation Group 1: Main */}
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2">Main Navigation</p>
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/') ? 'text-[#0F3E2E] bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><Home className="w-4 h-4 mr-2.5 text-[#0F3E2E]" />Home</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+            <Link to="/about" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/about') ? 'text-[#0F3E2E] bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><Heart className="w-4 h-4 mr-2.5 text-[#0F3E2E]" />About Us</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+            <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/projects') ? 'text-[#0F3E2E] bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><Sparkles className="w-4 h-4 mr-2.5 text-[#0F3E2E]" />Our Impact & Projects</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+            <Link to="/gallery" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/gallery') ? 'text-[#0F3E2E] bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><FileText className="w-4 h-4 mr-2.5 text-[#0F3E2E]" />Photo & Video Gallery</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+          </div>
+
+          {/* Navigation Group 2: Care & Sanctuaries */}
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2">Care & Sanctuaries</p>
+            <Link to="/children" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/children') ? 'text-emerald-800 bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><Users className="w-4 h-4 mr-2.5 text-emerald-600" />Children & Foster Care</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+            <Link to="/school" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/school') ? 'text-emerald-800 bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><GraduationCap className="w-4 h-4 mr-2.5 text-emerald-600" />Ismita Vidyalaya (Our School)</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+            <Link to="/old-age-care" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/old-age-care') ? 'text-emerald-800 bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><HandHeart className="w-4 h-4 mr-2.5 text-emerald-600" />Old Age Care Sanctuary</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+          </div>
+
+          {/* Navigation Group 3: Get Involved */}
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2">Get Involved</p>
+            <Link to="/sponsor" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-amber-900 bg-amber-50/80 border border-amber-200/60 hover:bg-amber-100/70 transition">
+              <span className="flex items-center"><Heart className="w-4 h-4 mr-2.5 text-amber-600 fill-amber-500" />Sponsor a Child or Elder</span>
+              <ChevronRight className="w-4 h-4 text-amber-400" />
+            </Link>
+            <Link to="/volunteer" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/volunteer') ? 'text-[#0F3E2E] bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><Users className="w-4 h-4 mr-2.5 text-[#0F3E2E]" />Volunteer With Us</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition ${isActive('/contact') ? 'text-[#0F3E2E] bg-emerald-50' : 'text-slate-800 hover:bg-slate-50'}`}>
+              <span className="flex items-center"><Phone className="w-4 h-4 mr-2.5 text-[#0F3E2E]" />Contact & Campus Visit</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+          </div>
+
+          {/* Navigation Group 4: Social Commerce */}
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2">Social Commerce</p>
+            <Link to="/store" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-emerald-900 bg-emerald-50/80 border border-emerald-200/60 hover:bg-emerald-100/70 transition">
+              <span className="flex items-center"><Sparkles className="w-4 h-4 mr-2.5 text-amber-500" />Shop Essentials (100% Profits to Charity)</span>
+              <ChevronRight className="w-4 h-4 text-emerald-400" />
+            </Link>
+            <Link to="/cart" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-50">
+              <span className="flex items-center"><ShoppingBag className="w-4 h-4 mr-2.5 text-slate-600" />Shopping Cart ({totalItems})</span>
+              <ChevronRight className="w-4 h-4 text-slate-300" />
+            </Link>
+          </div>
+
+          {/* Statutory Tax Exemption */}
+          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-start space-x-2.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-slate-800">80G Tax Exemption Certified</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">50% tax deduction on all donations under Sec 80G of Income Tax Act.</p>
+              <Link to="/account" onClick={() => setMobileMenuOpen(false)} className="text-emerald-700 font-bold underline mt-1 inline-block">
+                Generate Instant 80G Tax Receipt →
               </Link>
             </div>
           </div>
-        )}
-      </header>
-    </div>
+
+          {/* Helpline contact */}
+          <div className="p-3 bg-amber-50/70 rounded-xl border border-amber-200/70 text-xs flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Phone className="w-4 h-4 text-amber-600" />
+              <span className="font-semibold text-amber-900">Toll-Free Helpline</span>
+            </div>
+            <a href="tel:18002094455" className="font-bold text-[#0F3E2E] hover:underline">1800-209-4455</a>
+          </div>
+        </div>
+
+        {/* Drawer Bottom Sticky Action */}
+        <div className="p-4 border-t border-slate-100 bg-white">
+          <Link
+            to="/donate"
+            onClick={() => setMobileMenuOpen(false)}
+            className="w-full py-3.5 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 text-slate-950 font-extrabold text-sm rounded-xl flex items-center justify-center shadow-lg hover:brightness-105 transition"
+          >
+            <Heart className="w-4 h-4 mr-2 fill-slate-950 text-slate-950" />
+            Donate Now (80G Tax Exemption)
+          </Link>
+        </div>
+      </aside>
+
+      {/* Mobile Floating Sticky Bottom Navigation Bar */}
+      <nav 
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 shadow-[0_-4px_25px_rgba(0,0,0,0.08)] py-1.5 px-3 flex items-center justify-around"
+        aria-label="Mobile Bottom Navigation"
+      >
+        {/* 1. Home */}
+        <Link 
+          to="/" 
+          className={`flex flex-col items-center py-1 px-2.5 rounded-xl transition ${
+            isActive('/') ? 'text-[#0F3E2E] font-bold' : 'text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          <Home className={`w-5 h-5 ${isActive('/') ? 'stroke-[2.5] text-[#0F3E2E]' : ''}`} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Home</span>
+        </Link>
+
+        {/* 2. Programs */}
+        <Link 
+          to="/school" 
+          className={`flex flex-col items-center py-1 px-2.5 rounded-xl transition ${
+            isActive('/school') || isActive('/children') || isActive('/old-age-care') 
+              ? 'text-[#0F3E2E] font-bold' 
+              : 'text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          <GraduationCap className={`w-5 h-5 ${isActive('/school') || isActive('/children') ? 'stroke-[2.5] text-[#0F3E2E]' : ''}`} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Programs</span>
+        </Link>
+
+        {/* 3. Center Elevated Donate Button */}
+        <Link 
+          to="/donate" 
+          className="flex flex-col items-center -mt-5 group"
+        >
+          <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 via-amber-600 to-amber-400 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:scale-105 group-active:scale-95 transition-transform border-2 border-white">
+            <Heart className="w-6 h-6 fill-slate-950 text-slate-950" />
+          </div>
+          <span className="text-[10px] mt-0.5 font-bold text-amber-700">Donate</span>
+        </Link>
+
+        {/* 4. Store */}
+        <Link 
+          to="/store" 
+          className={`flex flex-col items-center py-1 px-2.5 rounded-xl transition relative ${
+            isActive('/store') ? 'text-emerald-800 font-bold' : 'text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          <ShoppingBag className={`w-5 h-5 ${isActive('/store') ? 'stroke-[2.5] text-emerald-800' : ''}`} />
+          {totalItems > 0 && (
+            <span className="absolute top-0.5 right-2 w-4 h-4 bg-emerald-600 text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+              {totalItems}
+            </span>
+          )}
+          <span className="text-[10px] mt-0.5 tracking-tight">Store</span>
+        </Link>
+
+        {/* 5. Menu Toggle */}
+        <button 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+          className={`flex flex-col items-center py-1 px-2.5 rounded-xl transition ${
+            mobileMenuOpen ? 'text-[#0F3E2E] font-bold' : 'text-slate-500 hover:text-slate-900'
+          }`}
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? (
+            <X className="w-5 h-5 text-red-500 stroke-[2.5]" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
+          <span className="text-[10px] mt-0.5 tracking-tight">{mobileMenuOpen ? 'Close' : 'Menu'}</span>
+        </button>
+      </nav>
+    </>
   );
 };
